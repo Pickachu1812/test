@@ -1,1 +1,135 @@
+1.
+
+sergey@ubuntu-server:~$ cat /etc/hosts
+127.0.0.1       localhost
+127.0.1.1       ubuntu-server
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+sergey@ubuntu-server:~$ cat /etc/issue                                          
+Ubuntu 18.04.4 LTS \n \l
+
+2.
+
+sergey@ubuntu-server:~$ cat file1
+test1
+test2
+sergey@ubuntu-server:~$ cat > file2
+tset3
+test4
+sergey@ubuntu-server:~$ cat file1 file2 > file3
+sergey@ubuntu-server:~$ cat file3
+test1
+test2
+tset3
+test4
+sergey@ubuntu-server:~$ mv file3 newfile
+sergey@ubuntu-server:~$ cat newfile
+test1
+test2
+tset3
+test4
+sergey@ubuntu-server:~$
+
+3.
+sergey@ubuntu-server:~$ touch file1
+sergey@ubuntu-server:~$ touch file2
+sergey@ubuntu-server:~$ touch file3
+sergey@ubuntu-server:~$ ls
+ file1   file2   file3   Видео   Документы   Загрузки   Изображения   Музыка   Общедоступные  'Рабочий стол'   Шаблоны
+sergey@ubuntu-server:~$ mkdir newdir
+sergey@ubuntu-server:~$ mv file3 newdir
+sergey@ubuntu-server:~$ ls
+ file1   file2   newdir   Видео   Документы   Загрузки   Изображения   Музыка   Общедоступные  'Рабочий стол'   Шаблоны
+sergey@ubuntu-server:~$ rm -rf file1 file2 newdir
+sergey@ubuntu-server:~$ ls
+ Видео   Документы   Загрузки   Изображения   Музыка   Общедоступные  'Рабочий стол'   Шаблоны
+
+4. ---------
+
+5.
+
+sergey@ubuntu-server:~$ cat /etc/* 2>error 1>/dev/null
+sergey@ubuntu-server:~$ cat error| wc -l
+126
+
+6.
+
+sergey@ubuntu-server:~$ kill -1 7449
+sergey@ubuntu-server:~$ kill -9 7502
+
+10.
+
+sergey@ubuntu-server:~$ ls -lA
+итого 92
+-rw-------  1 sergey sergey  762 апр  6 19:33  .bash_history
+-rw-r--r--  1 sergey sergey  220 апр  3 16:11  .bash_logout
+-rw-r--r--  1 sergey sergey 3771 апр  3 16:11  .bashrc
+drwx------ 14 sergey sergey 4096 апр  4 15:15  .cache
+drwx------ 12 sergey sergey 4096 апр  3 17:44  .config
+drwx------  3 sergey sergey 4096 апр  4 19:46  .gnupg
+-rw-------  1 sergey sergey 1384 апр  4 19:44  .ICEauthority
+drwx------  3 sergey sergey 4096 апр  3 16:32  .local
+drwx------  5 sergey sergey 4096 апр  4 15:15  .mozilla
+-rw-r--r--  1 sergey sergey  807 апр  3 16:11  .profile
+drwx------  2 sergey sergey 4096 апр  3 18:28  .ssh
+-rw-r--r--  1 sergey sergey    0 апр  3 17:26  .sudo_as_admin_successful
+-rw-r-----  1 sergey sergey    5 апр  4 19:44  .vboxclient-display.pid
+-rw-r-----  1 sergey sergey    5 апр  4 19:44  .vboxclient-draganddrop.pid
+-rw-r-----  1 sergey sergey    5 апр  4 19:44  .vboxclient-seamless.pid
+-rw-------  1 sergey sergey 2353 апр  5 17:46  .viminfo
+drwxr-xr-x  2 sergey sergey 4096 апр  3 16:32  Видео
+drwxr-xr-x  2 sergey sergey 4096 апр  3 16:32  Документы
+drwxr-xr-x  2 sergey sergey 4096 апр  3 16:32  Загрузки
+drwxr-xr-x  2 sergey sergey 4096 апр  3 16:32  Изображения
+drwxr-xr-x  2 sergey sergey 4096 апр  3 16:32  Музыка
+drwxr-xr-x  2 sergey sergey 4096 апр  3 16:32  Общедоступные
+drwxr-xr-x  2 sergey sergey 4096 апр  3 16:32 'Рабочий стол'
+drwxr-xr-x  2 sergey sergey 4096 апр  3 16:32  Шаблоны
+sergey@ubuntu-server:~$ ls -lA|cut -d " " -f1
+итого
+-rw-------
+-rw-r--r--
+-rw-r--r--
+drwx------
+drwx------
+drwx------
+-rw-------
+drwx------
+drwx------
+-rw-r--r--
+drwx------
+-rw-r--r--
+-rw-r-----
+-rw-r-----
+-rw-r-----
+-rw-------
+drwxr-xr-x
+drwxr-xr-x
+drwxr-xr-x
+drwxr-xr-x
+drwxr-xr-x
+drwxr-xr-x
+drwxr-xr-x
+drwxr-xr-x
+sergey@ubuntu-server:~$ ls -lA|cut -d " " -f1|sort |uniq
+drwx------
+drwxr-xr-x
+-rw-------
+-rw-r-----
+-rw-r--r--
+итого
+sergey@ubuntu-server:~$ ls -lA|cut -d " " -f1|sort |uniq| grep -v "итого"
+drwx------
+drwxr-xr-x
+-rw-------
+-rw-r-----
+-rw-r--r--
+sergey@ubuntu-server:~$ ls -lA|cut -d " " -f1|sort |uniq| grep -v "итого"| wc -l
+5
 
