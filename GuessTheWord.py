@@ -30,6 +30,7 @@ while True:
         errors_counter += 1
         print("Ошибок допущено ", errors_counter)
         if errors_counter == 8:
+            print("Загаданное слово было: ",secret_word.upper())
             print("Вы проиграли")
             break
     print("".join(gamer_word))
