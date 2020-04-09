@@ -1,0 +1,168 @@
+1.
+
+[sergey@localhost ~]$ mkdir test
+[sergey@localhost ~]$ cd test
+[sergey@localhost test]$ cat > file1
+asdghs
+asdkj
+kkk
+[sergey@localhost test]$ cp file1 file2
+[sergey@localhost test]$ ln -s file1 file3
+[sergey@localhost test]$ ln file1 file4
+[sergey@localhost test]$ ls -il
+итого 12
+5405287 -rw-rw-r--. 2 sergey sergey 17 апр  9 17:20 file1
+5405290 -rw-rw-r--. 1 sergey sergey 17 апр  9 17:20 file2
+5405291 lrwxrwxrwx. 1 sergey sergey  5 апр  9 17:20 file3 -> file1
+5405287 -rw-rw-r--. 2 sergey sergey 17 апр  9 17:20 file4
+[sergey@localhost test]$ rm -f file1
+[sergey@localhost test]$ ls -il
+итого 8
+5405290 -rw-rw-r--. 1 sergey sergey 17 апр  9 17:20 file2
+5405291 lrwxrwxrwx. 1 sergey sergey  5 апр  9 17:20 file3 -> file1
+5405287 -rw-rw-r--. 1 sergey sergey 17 апр  9 17:20 file4
+[sergey@localhost test]$ cat file2
+asdghs
+asdkj
+kkk
+[sergey@localhost test]$ cat file3
+cat: file3: Нет такого файла или каталога
+[sergey@localhost test]$ cat file4
+asdghs
+asdkj
+kkk
+[sergey@localhost test]$ rm -f file*
+
+2.
+
+[sergey@localhost test]$ mkdir ~/test2
+[sergey@localhost test]$ cat > newfile1
+sdsa
+fdf
+ghgh
+[sergey@localhost test]$ ln -s newfile1 newfile2
+[sergey@localhost test]$ ls -il
+итого 4
+5405287 -rw-rw-r--. 1 sergey sergey 14 апр  9 17:53 newfile1
+5405290 lrwxrwxrwx. 1 sergey sergey  8 апр  9 17:54 newfile2 -> newfile1
+[sergey@localhost test]$ mv newfile2 ~/test2
+[sergey@localhost test]$ ls -li ~/test2
+итого 0
+5405290 lrwxrwxrwx. 1 sergey sergey 8 апр  9 17:54 newfile2 -> newfile1
+[sergey@localhost test]$ ln newfile1 newfile3
+[sergey@localhost test]$ cat newfile3
+sdsa
+fdf
+ghgh
+[sergey@localhost test]$ mv newfile3 ~/test2
+[sergey@localhost test]$ ls -li ~/test2
+итого 4
+5405290 lrwxrwxrwx. 1 sergey sergey  8 апр  9 17:54 newfile2 -> newfile1
+5405287 -rw-rw-r--. 2 sergey sergey 14 апр  9 17:53 newfile3
+[sergey@localhost test]$ ls -li
+итого 4
+5405287 -rw-rw-r--. 2 sergey sergey 14 апр  9 17:53 newfile1
+[sergey@localhost test]$ cd ~/test2
+[sergey@localhost test2]$ cat file2
+cat: file2: Нет такого файла или каталога
+[sergey@localhost test2]$ cat newfile2
+cat: newfile2: Нет такого файла или каталога
+[sergey@localhost test2]$ ls
+newfile2  newfile3
+[sergey@localhost test2]$ cat newfile3
+sdsa
+fdf
+ghgh
+
+3.
+
+[sergey@localhost test]$ touch file1 file2
+[sergey@localhost test]$ chmod ug=rw,o=r file1
+[sergey@localhost test]$ chmod u=rw,go= file2
+[sergey@localhost test]$ ls -l
+итого 0
+-rw-rw-r--. 1 sergey sergey 0 апр  9 18:12 file1
+-rw-------. 1 sergey sergey 0 апр  9 18:12 file2
+[sergey@localhost test]$ chmod 664 file1
+[sergey@localhost test]$ chmod 600 file2
+[sergey@localhost test]$ ls -l
+итого 0
+-rw-rw-r--. 1 sergey sergey 0 апр  9 18:12 file1
+-rw-------. 1 sergey sergey 0 апр  9 18:12 file2
+
+4.
+
+sergey@ubuntu-server:~$ sudo useradd -m -G sudo -s /bin/bash user1
+sergey@ubuntu-server:~$ sudo passwd user1
+Введите новый пароль UNIX:
+Повторите ввод нового пароля UNIX:
+passwd: пароль успешно обновлён
+sergey@ubuntu-server:~$ cat /etc/passwd| grep user1
+user1:x:1001:1001::/home/user1:/bin/bash
+sergey@ubuntu-server:~$ cat /etc/group| grep user1
+sudo:x:27:sergey,user1
+user1:x:1001:
+
+5.
+
+sergey@ubuntu-server:~$ sudo groupadd developer
+sergey@ubuntu-server:~$ sudo useradd -m -G developer -s /bin/bash dev1
+sergey@ubuntu-server:~$ sudo useradd -m -G developer -s /bin/bash dev2
+sergey@ubuntu-server:~$ sudo useradd -m -G developer -s /bin/bash dev3
+sergey@ubuntu-server:~$ cat /etc/group| grep developer
+developer:x:1002:dev1,dev2,dev3
+sergey@ubuntu-server:~$ mkdir test
+sergey@ubuntu-server:~$ cd test
+sergey@ubuntu-server:~/test$ mkdir devdir
+sergey@ubuntu-server:~/test$ sudo chown :developer devdir
+sergey@ubuntu-server:~/test$ ls -l
+итого 4
+drwxrwxr-x 2 sergey developer 4096 апр  9 18:48 devdir
+sergey@ubuntu-server:~/test$ sudo chmod g+s,o= devdir
+sergey@ubuntu-server:~/test$ ls -l
+итого 4
+drwxrws--- 2 sergey developer 4096 апр  9 18:48 devdir
+
+6.
+
+sergey@ubuntu-server:~/test$ cd devdir
+sergey@ubuntu-server:~/test/devdir$ mkdir obmen
+sergey@ubuntu-server:~/test/devdir$ ls -l
+итого 4
+drwxrwsr-x 2 sergey developer 4096 апр  9 19:07 obmen
+sergey@ubuntu-server:~/test/devdir$ chmod g=rx,o= obmen
+sergey@ubuntu-server:~/test/devdir$ ls -l
+итого 4
+drwxr-x--- 2 sergey developer 4096 апр  9 19:07 obmen
+sergey@ubuntu-server:~/test/devdir$ cd obmen
+sergey@ubuntu-server:~/test/devdir/obmen$ touch file1
+sergey@ubuntu-server:~/test/devdir/obmen$ ls -l
+итого 0
+-rw-rw-r-- 1 sergey sergey 0 апр  9 19:10 file1
+
+7.
+
+sergey@ubuntu-server:~/test$ mkdir newdir
+sergey@ubuntu-server:~/test$ cat > ./newdir/file1
+123
+asd
+sergey@ubuntu-server:~/test$ cat > ./newdir/file2
+dfg
+hjk
+sergey@ubuntu-server:~/test$ sudo chmod a=x newdir
+sergey@ubuntu-server:~/test$ ls -l
+итого 4
+d--x--x--x 2 sergey sergey 4096 апр  9 19:22 newdir
+sergey@ubuntu-server:~/test$ ls newdir
+ls: невозможно открыть каталог 'newdir': Отказано в доступе
+sergey@ubuntu-server:~/test$ cat newdir/file1
+123
+asd
+sergey@ubuntu-server:~/test$ cat newdir/file2
+dfg
+hjk
+
+
+
+
+
