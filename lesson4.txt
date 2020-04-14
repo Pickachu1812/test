@@ -1,0 +1,78 @@
+1.
+
+sergey@ubuntu-server:~/test$ cat script
+#!/bin/bash
+file=$1
+sed '/^$/d' $file > tempfile
+mv tempfile $file
+sergey@ubuntu-server:~/test$ cat > newfile
+asdsd
+
+asdsddffg
+
+ghfghghhg
+sergey@ubuntu-server:~/test$ ./script newfile
+sergey@ubuntu-server:~/test$ cat newfile
+asdsd
+asdsddffg
+ghfghghhg
+
+3.
+
+sergey@ubuntu-server:~/test$ cat script
+#!/bin/bash
+mkdir -p {2010..2017}/{01..12}
+for i in {2010..2017}
+ do
+  for j in {01..12}
+   do
+    for k in {001..003}
+     do
+     echo "Файл "$k > $i/$j/$k.txt
+    done
+   done
+done
+sergey@ubuntu-server:~/test$ ./script
+sergey@ubuntu-server:~/test$ ls
+2010  2011  2012  2013  2014  2015  2016  2017  script
+sergey@ubuntu-server:~/test$ ls 2015
+01  02  03  04  05  06  07  08  09  10  11  12
+sergey@ubuntu-server:~/test$ ls 2015/06
+001.txt  002.txt  003.txt
+sergey@ubuntu-server:~/test$ cat 2015/06/003.txt
+Файл 003
+
+5.
+
+sergey@ubuntu-server:~/test$ cat ~/ownersort.sh
+#!/bin/bash
+for file in *
+ do
+  {
+   owner=`ls -l $file | cut -d " " -f3`
+   [ -d $owner ]||mkdir $owner
+   mv $file $owner/$file
+   }
+done
+sergey@ubuntu-server:~/test$ touch file{1..9}
+sergey@ubuntu-server:~/test$ sudo chown user1 file{1..5}
+[sudo] пароль для sergey:
+sergey@ubuntu-server:~/test$ ls -l
+итого 0
+-rw-rw-r-- 1 user1  sergey 0 апр 14 17:34 file1
+-rw-rw-r-- 1 user1  sergey 0 апр 14 17:34 file2
+-rw-rw-r-- 1 user1  sergey 0 апр 14 17:34 file3
+-rw-rw-r-- 1 user1  sergey 0 апр 14 17:34 file4
+-rw-rw-r-- 1 user1  sergey 0 апр 14 17:34 file5
+-rw-rw-r-- 1 sergey sergey 0 апр 14 17:34 file6
+-rw-rw-r-- 1 sergey sergey 0 апр 14 17:34 file7
+-rw-rw-r-- 1 sergey sergey 0 апр 14 17:34 file8
+-rw-rw-r-- 1 sergey sergey 0 апр 14 17:34 file9
+sergey@ubuntu-server:~/test$ ~/ownersort.sh
+sergey@ubuntu-server:~/test$ ls
+sergey  user1
+sergey@ubuntu-server:~/test$ ls sergey
+file6  file7  file8  file9
+sergey@ubuntu-server:~/test$ ls user1
+file1  file2  file3  file4  file5
+
